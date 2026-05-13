@@ -1,7 +1,60 @@
 <!DOCTYPE html>
 <head>
-	<title>Polak is cute!</title>
+	<meta http-equiv="200" charset="utf-8" />
+	<title>Demos for Shaded Maple</title>
+	<meta content="true" name="HandheldFriendly" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<meta name="author" content="Lightingale Community" />
+	<meta name="description" content="Demonstrating the use of Shaded Maple." />
+	<meta name="og:title" content="Rochelle demos (OpenGraph)" />
+	<meta name="og:description" content="Demonstrating the use of Shaded Maple." />
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Rochelle demos (Twitter)" />
+	<meta name="twitter:description" content="Demonstrating the use of Shaded Maple." />
+	<meta name="robots" content="index,follow" />
+	<meta name="keywords" content="Shaded Maple,ServiceWorker,ReadableStream,CDN,Lightingale" />
+	<link rel="stylesheet" href="./css/bulma.css" />
 </head>
 <body>
-	<p>Polak is cute!</p>
+	<div class="container is-max-desktop">
+		<section class="hero">
+			<div class="hero-body">
+				<p class="title">Shaded Maple</p>
+				<p class="subtitle">Magic with ServiceWorkers. Check the demos below out to learn its capabilities.</p>
+			</div>
+		</section>
+		<div class="grid is-col-min-10">
+			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
+				<a class="has-text-inherit" href="./partialText.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">Partial Text Loader</p>
+						<div class="content">A showcase on serving <code>ReadableStream</code> as an HTTP response. Try to tweak the start and size parameters, and see how the content responds.</div>
+					</div>
+				</a>
+			</div>
+			<div class="cell has-background-link has-text-link-invert has-radius-normal px-5 py-5">
+				<a class="has-text-inherit" href="./partialImage.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">Partial Image Loader</p>
+						<div class="content">A showcase on serving <code>ReadableStream</code> as an HTTP response, as well as observing partial image decoding behaviour.</div>
+					</div>
+				</a>
+			</div>
+			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
+				<a class="has-text-inherit" href="./localCdn.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">On-device CDN</p>
+						<div class="content">A showcase on serving cached response like a CDN. Try to see how the page behaves when connected, throttled and disconnected.</div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="content has-text-centered">
+				<p>Copyright 2026 &copy; Lumière Élevé, Lightingale Community</p>
+				<p>The Shaded Maple library is licensed under GNU LGPL v3.0 License. Source code available on <a href="https://codeberg.org/ltgc/shaded-maple" target="_blank">Codeberg</a> and <a href="https://github.com/ltgcgo/shaded-maple" target="_blank">GitHub</a>.</p>
+				<p>Read <a target="_blank" href="https://www.fimfiction.net/story/55396/">A Wolf in Sheep's Clothing</a> on FimFiction!</p>
+			</div>
+		</footer>
+	</div>
 </body>
