@@ -32,7 +32,7 @@ if [ -d "./web" ]; then
 	ls -1 web | while IFS= read -r dir ; do
 		if [ -f "web/${dir}/index.htm" ] ; then
 			echo "Building HTML target \"${dir}\"..."
-			shx page $dir "--html-keep-document-tags --html-keep-quotes" > /dev/null
+			shx page $dir > /dev/null
 		fi
 	done
 #else
