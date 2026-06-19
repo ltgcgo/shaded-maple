@@ -4,6 +4,7 @@
 
 import ShadedMapleConstants from "./const.mjs";
 import {
+	ShadedMapleMessage,
 	ShadedMapleTaskBase,
 	ShadedMapleTask
 } from "./tasks.mjs";
@@ -11,7 +12,13 @@ import {
 const maxAllowedTaskId = 4294967295;
 const maxLoopTries = 1024;
 
-export default class ShadedMaple extends ShadedMapleConstants {
+if (typeof self?.require !== "undefined") {
+	throw(new Error("Environments supporting CommonJS are not supported."));
+} else {
+	delete self.process;
+};
+
+const ShadedMaple = class ShadedMaple extends ShadedMapleConstants {
 	static debug = false;
 	static type = this.TYPE_UNDETERMINED;
 	/** @type {ServiceWorkerRegistration} */
@@ -44,14 +51,14 @@ export default class ShadedMaple extends ShadedMapleConstants {
 		if (loopGuard === maxLoopTries) {
 			throw(new Error(`Cannot schedule tasks due to a crowded pool.`));
 		};
-		const newTask = new ShadedMapleTask(new ShadedMapleTaskBase(type, newTaskId));
-		newTask.detail = detail;
+		const newTaskMsg = new ShadedMapleMessage(type, newTaskId, detail);
+		const newTask = new ShadedMapleTask(newTaskMsg);
 		newTask.resolver = resolver;
 		upThis.#swTaskPool.set(newTaskId, newTask);
 		if (upThis.debug) {
 			console.debug(`Task ${newTaskId} created at ${newTask.atCreation}.`);
 		};
-		return newTask;
+		upThis.#swPort.postMessage(newTaskMsg);
 	};
 	static async #swInit() {
 		const upThis = this;
@@ -74,7 +81,7 @@ export default class ShadedMaple extends ShadedMapleConstants {
 				};
 				case 1: {
 					// Task run begins.
-					/** @type {ShadedMapleTaskBase} */
+					/** @type {ShadedMapleMessage} */
 					const content = data[1];
 					if (upThis.#swTaskPool.has(content.id)) {
 						const task = upThis.#swTaskPool.get(content.id);
@@ -88,8 +95,23 @@ export default class ShadedMaple extends ShadedMapleConstants {
 					break;
 				};
 				case 2: {
+					// Task run fails.
+					/** @type {ShadedMapleMessage} */
+					const content = data[1];
+					if (upThis.#swTaskPool.has(content.id)) {
+						const task = upThis.#swTaskPool.get(content.id);
+						if (upThis.debug) {
+							console.debug(`Task #${task.id} failed after ${Date.now() - (task.atStart || task.atCreation)} ms.`);
+						};
+						upThis.#swTaskPool.delete(content.id);
+					} else {
+						console.warn(`Task #${content.id} does not exist.`);
+					};
+					break;
+				};
+				case 3: {
 					// Task run ends.
-					/** @type {ShadedMapleTaskBase} */
+					/** @type {ShadedMapleMessage} */
 					const content = data[1];
 					if (upThis.#swTaskPool.has(content.id)) {
 						const task = upThis.#swTaskPool.get(content.id);
@@ -124,7 +146,7 @@ export default class ShadedMaple extends ShadedMapleConstants {
 		upThis.#swPort.start();
 		upThis.#swHandle.postMessage(null, [ports.port2]);
 		await deferrer;
-		console.debug(`Shaded Maple has started successfully.`);
+		console.debug(`Shaded Maple type ${upThis.type} has started successfully.`);
 	};
 	/** @param {String} swUrl */
 	static async start(swUrl) {
@@ -154,6 +176,7 @@ export default class ShadedMaple extends ShadedMapleConstants {
 						};
 						case "redundant": {
 							upThis.#swHandle.onstatechange = null;
+							//upThis.#swRegEntry.update();
 							reject(new Error(`Service Worker refused to activate.`));
 							break;
 						};
@@ -163,5 +186,12 @@ export default class ShadedMaple extends ShadedMapleConstants {
 			return await resolveSignal;
 		};
 	};
-	static streamUrl(source) {};
+	static streamUrl(source) {
+		this.#swTaskCreate("stream", {}, console.info);
+	};
+}
+
+export {
+	ShadedMapleMessage,
+	ShadedMaple
 };

@@ -1,8 +1,21 @@
 // 2026 © Lightingale Community
 // Licensed under GNU LGPL v3.0 license.
 
+/**
+* @license LGPL-3.0-only
+* @module cc.ltgc.shadedMaple
+*/
+
+export class ShadedMapleMessage<T, U> {
+	type: string;
+	id: number;
+	data?: T;
+	error?: Error;
+	result?: U;
+}
+
 /** The main Shaded Maple API. */
-export default class ShadedMaple {
+export class ShadedMaple {
 	static readonly TYPE_UNDETERMINED: number;
 	static readonly TYPE_SLIM: number;
 	static readonly TYPE_FULL: number;
