@@ -45,7 +45,18 @@ const ShadedMapleServiceWorker = class ShadedMapleServiceWorker {
 				};
 				if (!msg.error) {
 					respMsg.result = result;
-					port.postMessage([3, respMsg], [respMsg.result]);
+					switch (typeof result) {
+						case "boolean":
+						case "bigint":
+						case "number":
+						case "string": {
+							port.postMessage([3, respMsg]);
+							break;
+						};
+						default: {
+							port.postMessage([3, respMsg], [respMsg.result]);
+						};
+					};
 				};
 			} else {
 				console.info(`Message type "${msg.type}" is not handled.\n`, msg.data);

@@ -26,6 +26,6 @@ self.ShadedMaple = ShadedMaple;
 
 ShadedMaple.debug = true;
 await ShadedMaple.start("./sw.js");
-ShadedMaple.streamUrl();
+console.debug(await ShadedMaple.streamUrl());
 
 })();

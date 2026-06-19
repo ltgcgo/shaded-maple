@@ -15,6 +15,9 @@ const shadedMaple = new ShadedMapleServiceWorker();
 
 shadedMaple.type = 1;
 shadedMaple.attachAll(self);
+shadedMaple.setHandler("stream", () => {
+	return crypto.getRandomValues(new Uint8Array(18)).toBase64({alphabet: "base64url"});
+});
 
 console.debug(`Shaded Maple's Service Worker is now running!`);
 

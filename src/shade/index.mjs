@@ -187,7 +187,12 @@ const ShadedMaple = class ShadedMaple extends ShadedMapleConstants {
 		};
 	};
 	static streamUrl(source) {
-		this.#swTaskCreate("stream", {}, console.info);
+		const upThis = this;
+		return new Promise((resolve) => {
+			upThis.#swTaskCreate("stream", source, (data, task) => {
+				resolve(data);
+			});
+		});
 	};
 }
 
