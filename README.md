@@ -9,9 +9,9 @@ Source of the name [`here`](https://www.fimfiction.net/story/55396/) (**Shade** 
   - [ ] AppCache respun.
 
 ## Distributed versions
-- `sw_req.js`: Service worker for local share handling and stream-to-response conversion, as well as an AppCache manifest-driven prefetch cache (only `CACHE:` gets used, 304 checks every time). Everything else not covered gets bypassed.
-- `sw_cdn.js`: The above, plus the full local CDN.
-- `sw_lru.js`: The `SharedWorker` for cleaning up local CDN caches. Not needed by `sw_req.js`.
+- `swReq.js`: Service worker for local share handling and stream-to-response conversion, as well as an AppCache manifest-driven prefetch cache (only `CACHE:` gets used, 304 checks every time). Everything else not covered gets bypassed.
+- `swCdn.js`: The above, plus the full local CDN.
+- `swLru.js`: The `SharedWorker` for cleaning up local CDN caches. Not needed by `swReq.js`.
 - `shade.mjs`: A set of APIs used by pages to receive shares, register and manage streams, as well as supplying AppCache manifests. Also used to stream warnings and errors back to the page console.
 
 ## Technical design
