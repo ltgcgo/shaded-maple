@@ -18,6 +18,7 @@ Source of the name [`here`](https://www.fimfiction.net/story/55396/) (**Shade** 
 ### Constraints
 - Hit browser's own HTTP cache as much as possible.
 - One incoming request, at most one outgoing request.
+- A copy of paths should be available in RAM as compressed trie.
 
 ### Path handlers
 - `@/maple-file/<rdnn>?to=<targetUrl>`: ~~Handle PWA file opens locally~~ (removed).

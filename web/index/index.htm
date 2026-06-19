@@ -14,6 +14,7 @@
 	<meta name="robots" content="index,follow" />
 	<meta name="keywords" content="Shaded Maple,ServiceWorker,ReadableStream,CDN,Lightingale" />
 	<link rel="stylesheet" href="./css/bulma.css" />
+	<link rel="stylesheet" href="./css/global.css" />
 </head>
 <body>
 	<div class="container is-max-desktop">
@@ -25,23 +26,47 @@
 		</section>
 		<div class="grid is-col-min-10">
 			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
-				<a class="has-text-inherit" href="./partialText.htm">
+				<a class="cell-entry has-text-inherit" href="./partialText.htm">
 					<div class="content">
-						<p class="title is-4 has-text-inherit">Partial Text Loader</p>
-						<div class="content">A showcase on serving <code>ReadableStream</code> as an HTTP response. Try to tweak the start and size parameters, and see how the content responds.</div>
+						<p class="title is-4 has-text-inherit">Partial Text Stream</p>
+						<div class="content">A showcase on serving ephemeral <code>ReadableStream</code> as an HTTP response. Try to tweak the start and size parameters, and see how the content responds.</div>
 					</div>
 				</a>
 			</div>
 			<div class="cell has-background-link has-text-link-invert has-radius-normal px-5 py-5">
-				<a class="has-text-inherit" href="./partialImage.htm">
+				<a class="cell-entry has-text-inherit" href="./partialImage.htm">
 					<div class="content">
-						<p class="title is-4 has-text-inherit">Partial Image Loader</p>
-						<div class="content">A showcase on serving <code>ReadableStream</code> as an HTTP response, as well as observing partial image decoding behaviour.</div>
+						<p class="title is-4 has-text-inherit">Partial Image Stream</p>
+						<div class="content">A showcase on serving ephemeral <code>ReadableStream</code> as an HTTP response, as well as observing partial image decoding behaviour.</div>
 					</div>
 				</a>
 			</div>
 			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
-				<a class="has-text-inherit" href="./localCdn.htm">
+				<a class="cell-entry has-text-inherit" href="./localCdn.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">Offline AppCache</p>
+						<div class="content">A showcase on serving lightweight local cache to enable offline experiences with stripped down AppCache syntax. Try to see how the page behaves when connected, throttled and disconnected.</div>
+					</div>
+				</a>
+			</div>
+			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
+				<a class="cell-entry has-text-inherit" href="./storedText.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">Partial Text Store</p>
+						<div class="content">A showcase on serving reusable <code>Blob</code> as HTTP responses. Try to tweak the start and size parameters, and see how the content responds.</div>
+					</div>
+				</a>
+			</div>
+			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
+				<a class="cell-entry has-text-inherit" href="./storedImage.htm">
+					<div class="content">
+						<p class="title is-4 has-text-inherit">Partial Image Store</p>
+						<div class="content">A showcase on serving reusable <code>Blob</code> as HTTP responses, as well as observing partial image decoding behaviour.</div>
+					</div>
+				</a>
+			</div>
+			<div class="cell has-background-danger has-text-black has-radius-normal px-5 py-5">
+				<a class="cell-entry has-text-inherit" href="./localCdn.htm">
 					<div class="content">
 						<p class="title is-4 has-text-inherit">On-device CDN</p>
 						<div class="content">A showcase on serving cache like a CDN, but local and lightweight, with customisable stripped-down AppCache manifest. Try to see how the page behaves when connected, throttled and disconnected.</div>
