@@ -11,7 +11,7 @@ export class ShadedMapleMovableError {
 	message?: string;
 	stack?: string;
 	constructor(err: Error);
-};
+}
 
 export class ShadedMapleMessage<T, U> {
 	type: string;

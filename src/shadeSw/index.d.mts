@@ -27,7 +27,7 @@ export class ShadedMapleServiceWorker {
 	/** Attach all available handlers to the target Service Worker scope. */
 	attachAll(scope: ServiceWorkerGlobalScope): void;
 	/** Set a handler for a type of message. */
-	setHandler(type: string, handler: (message: ShadedMapleMessage<any>, context: ShadedMapleReceiverContext) => void): void;
+	setHandler(type: string, handler: (message: ShadedMapleMessage<any, any>, context: ShadedMapleReceiverContext) => void): void;
 	/** Set a responder for a path prefix. */
 	setResponder(pathPrefix: string, handler: (request: Request, context: ShadedMapleReceiverContext) => Response | Promise<Response>): void;
 }
