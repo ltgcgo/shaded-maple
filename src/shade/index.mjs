@@ -4,6 +4,7 @@
 
 import ShadedMapleConstants from "./const.mjs";
 import {
+	ShadedMapleMovableError,
 	ShadedMapleMessage,
 	ShadedMapleTaskBase,
 	ShadedMapleTask
@@ -103,6 +104,12 @@ const ShadedMaple = class ShadedMaple extends ShadedMapleConstants {
 						if (upThis.debug) {
 							console.debug(`Task #${task.id} failed after ${Date.now() - (task.atStart || task.atCreation)} ms.`);
 						};
+						if (content.error) {
+							const showedError = new Error(content.error.message);
+							showedError.name = content.error.name;
+							showedError.stack = content.error.stack;
+							console.error(showedError);
+						};
 						upThis.#swTaskPool.delete(content.id);
 					} else {
 						console.warn(`Task #${content.id} does not exist.`);
@@ -197,6 +204,7 @@ const ShadedMaple = class ShadedMaple extends ShadedMapleConstants {
 }
 
 export {
+	ShadedMapleMovableError,
 	ShadedMapleMessage,
 	ShadedMaple
 };

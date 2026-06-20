@@ -11,7 +11,8 @@ import type {
 } from "../shade/index.d.mts";
 
 export class ShadedMapleReceiverContext {
-	worker: ServiceWorkerGlobalScope;
+	worker: ServiceWorker;
+	registration: ServiceWorkerRegistration;
 	host: ShadedMapleServiceWorker;
 }
 

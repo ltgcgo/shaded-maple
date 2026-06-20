@@ -2,6 +2,21 @@
 // Licensed under GNU LGPL v3.0 license.
 "use strict";
 
+const ShadedMapleMovableError = class ShadedMapleMovableError {
+	/** @type {String} */
+	name;
+	/** @type {String} */
+	message;
+	/** @type {String} */
+	stack;
+	/** @param {Error} err */
+	constructor(err) {
+		this.name = err.name;
+		this.message = err.message;
+		this.stack = err.stack;
+	};
+};
+
 /** @template T, U */
 const ShadedMapleMessage = class ShadedMapleMessage {
 	/** @type {String} */
@@ -10,7 +25,7 @@ const ShadedMapleMessage = class ShadedMapleMessage {
 	id;
 	/** @type {T} */
 	data;
-	/** @type {Error} */
+	/** @type {ShadedMapleMovableError} */
 	error;
 	/** @type {U} */
 	result;
@@ -45,6 +60,7 @@ const ShadedMapleTask = class ShadedMapleTask extends ShadedMapleMessage {
 };
 
 export {
+	ShadedMapleMovableError,
 	ShadedMapleMessage,
 	ShadedMapleTask
 };

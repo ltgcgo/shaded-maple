@@ -6,11 +6,18 @@
 * @module cc.ltgc.shadedMaple
 */
 
+export class ShadedMapleMovableError {
+	name: string;
+	message?: string;
+	stack?: string;
+	constructor(err: Error);
+};
+
 export class ShadedMapleMessage<T, U> {
 	type: string;
 	id: number;
 	data?: T;
-	error?: Error;
+	error?: ShadedMapleMovableError;
 	result?: U;
 }
 

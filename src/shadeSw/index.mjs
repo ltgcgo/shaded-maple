@@ -3,7 +3,8 @@
 "use strict";
 
 import {
-	ShadedMapleMessage
+	ShadedMapleMessage,
+	ShadedMapleMovableError
 } from "../shade/index.mjs";
 
 if (typeof self?.require !== "undefined") {
@@ -37,24 +38,31 @@ const ShadedMapleServiceWorker = class ShadedMapleServiceWorker {
 				port.postMessage([1, respMsg]);
 				let result;
 				try {
-					result = await upThis.#handlers.get(msg.type).call(upThis, msg.data);
+					result = await upThis.#handlers.get(msg.type).call(upThis, msg.data, {
+						worker: self.serviceWorker,
+						registration: self.registration,
+						host: upThis
+					});
 				} catch (err) {
-					respMsg.error = err;
-					port.postMessage([2, respMsg], [respMsg.error]);
+					respMsg.error = new ShadedMapleMovableError(err);
+					port.postMessage([2, respMsg]);
 					return;
 				};
-				if (!msg.error) {
+				if (!respMsg.error) {
 					respMsg.result = result;
-					switch (typeof result) {
-						case "boolean":
-						case "bigint":
-						case "number":
-						case "string": {
-							port.postMessage([3, respMsg]);
+					switch (result?.constructor) {
+						case ArrayBuffer:
+						case ImageBitmap:
+						case MessagePort:
+						case OffscreenCanvas:
+						case ReadableStream:
+						case TransformStream:
+						case WritableStream: {
+							port.postMessage([3, respMsg], [respMsg.result]);
 							break;
 						};
 						default: {
-							port.postMessage([3, respMsg], [respMsg.result]);
+							port.postMessage([3, respMsg]);
 						};
 					};
 				};
@@ -89,7 +97,8 @@ const ShadedMapleServiceWorker = class ShadedMapleServiceWorker {
 					if (this.#responders.has(matchPath)) {
 						console.debug(`${req.method} ${cleanPath} (${matchPath})`);
 						const resp = await upThis.#responders.get(matchPath)(req, {
-							worker: self,
+							worker: self.serviceWorker,
+							registration: self.registration,
 							host: upThis
 						});
 						if (resp instanceof Response) {
@@ -135,13 +144,13 @@ const ShadedMapleServiceWorker = class ShadedMapleServiceWorker {
 		scope.addEventListener("messageerror", upThis.messageerror.bind(upThis));
 	};
 	/** @param {String} type
-	* @param {(message: ShadedMapleMessage<any>, context: {worker: ServiceWorkerGlobalScope, host: ShadedMapleServiceWorker}) => void} handler
+	* @param {(message: ShadedMapleMessage<any>, context: {worker: ServiceWorker, registration: ServiceWorkerRegistration, host: ShadedMapleServiceWorker}) => void} handler
 	*/
 	setHandler(type, handler) {
 		this.#handlers.set(type, handler);
 	};
 	/** @param {String} pathPrefix
-	* @param {(request: Request, context: {worker: ServiceWorkerGlobalScope, host: ShadedMapleServiceWorker}) => Response | Promise<Response>} handler
+	* @param {(request: Request, context: {worker: ServiceWorker, registration: ServiceWorkerRegistration, host: ShadedMapleServiceWorker}) => Response | Promise<Response>} handler
 	*/
 	setResponder(pathPrefix, handler) {
 		if (pathPrefix.slice(0, 2) !== "./") {
